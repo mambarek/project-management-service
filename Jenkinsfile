@@ -1,5 +1,4 @@
 def branch = 'master'
-def scmUrl = 'http://ubuntu-server:7990/scm/ema/project-management-service.git'
 def mavenVersion = 'maven-3.6.3'
 def javaVersion = 'Java11'
 
@@ -30,7 +29,7 @@ node {
     ansiColor('xterm') {
          stage('Checkout') {
             echo "Checkout project-management-service..."
-            git branch: branch, url: scmUrl
+            checkout scm
          }
 
          stage('Build') {
