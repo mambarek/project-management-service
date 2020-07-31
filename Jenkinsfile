@@ -1,5 +1,5 @@
 def branch = 'master'
-def scmUrl = 'ssh://git@ubuntu-server:7999/ema/project-management-service.git'
+def scmUrl = 'http://ubuntu-server:7990/scm/ema/project-management-service.git'
 def mavenVersion = 'maven-3.6.3'
 def javaVersion = 'Java11'
 
