@@ -4,6 +4,8 @@ import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.mapper.ProjectMapper;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.repositories.ProjectRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,14 @@ public class ProjectServiceImpl implements ProjectService {
 
   private final ProjectMapper projectMapper;
   private final ProjectRepository projectRepository;
+
+  @Override
+  public List<Project> findAllProjects() {
+    List<Project> result = new ArrayList<>();
+    projectRepository.findAll()
+        .forEach(projectEntity -> result.add(projectMapper.projectEntityToProject(projectEntity)));
+    return result;
+  }
 
   @Override
   public Project findProjectByPublicId(UUID publicId) {

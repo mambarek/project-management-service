@@ -3,6 +3,7 @@ package com.it2go.micro.projectmanagement.web.controller;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.services.ProjectService;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class ProjectController {
 
   private final ProjectService projectService;
+
+  @GetMapping
+  public ResponseEntity<List<Project>> getAllProjects() {
+    List<Project> allProjects = projectService.findAllProjects();
+
+    return new ResponseEntity<>(allProjects, HttpStatus.OK);
+  }
 
   @GetMapping("/{publicId}")
   public ResponseEntity<Project> getProjectByPublicId(
@@ -52,5 +60,10 @@ public class ProjectController {
     Project updatedProject = projectService.updateProject(project);
 
     return new ResponseEntity<>(updatedProject, HttpStatus.OK);
+  }
+
+  @GetMapping("/count")
+  public ResponseEntity<Long> getProjectsCount() {
+    return new ResponseEntity<>(projectService.countProjects(), HttpStatus.OK);
   }
 }
