@@ -20,4 +20,11 @@
         <url>http://ubuntu-server:7990/scm/ema/project-management-service</url>
     </scm>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-hal-explorer</artifactId>
+        </dependency>
+
+    </dependencies>
 </project>
