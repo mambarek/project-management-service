@@ -2,7 +2,14 @@
 
 Projects are consumed from Employees Servive 
 
-Add comment in first-branch
-Add comment in second-branch
-Jetzt nochmal
-change only here for multi branche pipe test
+
+### Swagger UI
+ATTENTION: HAL-Browser and Explorer don't work with Swagger
+it rises exceptions so avoid it to add them
+#### api-docs
+http://localhost:8020/v3/api-docs
+#### YAML
+http://localhost:8020/v3/api-docs.yaml
+
+#### swagger ui
+http://localhost:8020/swagger-ui.html

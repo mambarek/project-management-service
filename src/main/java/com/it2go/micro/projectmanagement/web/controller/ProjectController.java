@@ -2,6 +2,12 @@ package com.it2go.micro.projectmanagement.web.controller;
 
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.services.ProjectService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+@OpenAPIDefinition(
+    info = @Info(
+        title = "Project Management Service API",
+        description = "API for Project management App",
+        version = "1.0",
+        license = @License(name = "Apache license 2.0", url = "http://www.it-2go.de"),
+        contact = @Contact(url = "http://gigantic-server.com", name = "Mohamed Ali Mbarek", email = "mbarek@it-2go.de")
+    )
+)
 @RestController
 @RequestMapping("/api/v1/projects")
 @RequiredArgsConstructor
@@ -27,6 +42,8 @@ public class ProjectController {
 
   private final ProjectService projectService;
 
+  @Operation(summary = "Get projects",
+      description = "Get list of projects")
   @GetMapping
   public ResponseEntity<List<Project>> getAllProjects() {
     List<Project> allProjects = projectService.findAllProjects();
@@ -34,6 +51,15 @@ public class ProjectController {
     return new ResponseEntity<>(allProjects, HttpStatus.OK);
   }
 
+  @ApiOperation(
+      nickname = "Retrieves a project by public id",
+      value = "Retrieves a project by public id",
+      notes = "Returns the projects with public id",
+      response = Project.class,
+      responseContainer = "ResponseEntity",
+      produces = "application/json",
+      consumes = "application/json"
+  )
   @GetMapping("/{publicId}")
   public ResponseEntity<Project> getProjectByPublicId(
       @PathVariable("publicId") @NotNull UUID publicId) {
@@ -42,6 +68,15 @@ public class ProjectController {
     return new ResponseEntity<>(project, HttpStatus.OK);
   }
 
+  @ApiOperation(
+      nickname = "Saves a new project",
+      value = "Saves a new project",
+      notes = "Returns the saved project",
+      response = Project.class,
+      responseContainer = "ResponseEntity",
+      produces = "application/json",
+      consumes = "application/json"
+  )
   @PostMapping
   public ResponseEntity<Project> saveProject(@RequestBody @Valid Project project) {
     Project savedProject = projectService.saveNewProject(project);
@@ -55,6 +90,15 @@ public class ProjectController {
     return new ResponseEntity<>(savedProject, responseHeaders, HttpStatus.CREATED);
   }
 
+  @ApiOperation(
+      nickname = "Updates a project with a public id",
+      value = "Updates a project with a public id",
+      notes = "Returns the updated project",
+      response = Project.class,
+      responseContainer = "ResponseEntity",
+      produces = "application/json",
+      consumes = "application/json"
+  )
   @PutMapping("/{publicId}")
   public ResponseEntity<Project> updateProject(@RequestBody @Valid Project project) {
     Project updatedProject = projectService.updateProject(project);
@@ -62,6 +106,15 @@ public class ProjectController {
     return new ResponseEntity<>(updatedProject, HttpStatus.OK);
   }
 
+  @ApiOperation(
+      nickname = "Returns the count of all projects",
+      value = "Returns the count of all projects",
+      notes = "Returns the project count",
+      response = Long.class,
+      responseContainer = "ResponseEntity",
+      produces = "application/json",
+      consumes = "application/json"
+  )
   @GetMapping("/count")
   public ResponseEntity<Long> getProjectsCount() {
     return new ResponseEntity<>(projectService.countProjects(), HttpStatus.OK);
