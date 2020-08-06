@@ -1,0 +1,15 @@
+version: "3"
+services:
+  postgres_bitbucket:
+    image: postgres
+    container_name: 'postgres_dev'
+    volumes:
+      - postgresqldata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_ENCODING=UTF8'
+volumes:
+  postgresqldata:
+    external: false

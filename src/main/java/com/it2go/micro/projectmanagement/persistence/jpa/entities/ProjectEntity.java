@@ -1,17 +1,23 @@
 package com.it2go.micro.projectmanagement.persistence.jpa.entities;
 
-import com.it2go.micro.projectmanagement.domain.ProjectStatus;
 import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
@@ -34,7 +40,7 @@ public class ProjectEntity implements Serializable {
     private String name;
 
     @Basic
-    @Column(name = "DESC", nullable = false, length = 500)
+    @Column(name = "DESCRIPTION", nullable = false, length = 500)
     private String description;
 
     @Basic
