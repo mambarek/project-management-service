@@ -3,6 +3,11 @@ package com.it2go.micro.projectmanagement.web.controller;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.services.ProjectService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+@OpenAPIDefinition(
+    info = @Info(
+        title = "Project Management Service API",
+        description = "API for Project management App",
+        version = "1.0",
+        license = @License(name = "Apache license 2.0", url = "http://www.it-2go.de"),
+        contact = @Contact(url = "http://gigantic-server.com", name = "Mohamed Ali Mbarek", email = "mbarek@it-2go.de")
+    )
+)
 @RestController
 @RequestMapping("/api/v1/projects")
 @RequiredArgsConstructor
@@ -28,13 +42,8 @@ public class ProjectController {
 
   private final ProjectService projectService;
 
-  @ApiOperation(
-      nickname = "Retrieves all projects nick",
-      value = "Retrieves all projects value",
-      notes = "A list of all projects",
-      response = List.class,
-      responseContainer = "ResponseEntity",
-      produces = "application/json")
+  @Operation(summary = "Get projects",
+      description = "Get list of projects")
   @GetMapping
   public ResponseEntity<List<Project>> getAllProjects() {
     List<Project> allProjects = projectService.findAllProjects();
