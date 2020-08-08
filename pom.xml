@@ -7,7 +7,7 @@
         <version>1.1</version>
     </parent>
     <artifactId>project-management-service</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>project-management-service</name>
     <description>Project management service</description>
 
