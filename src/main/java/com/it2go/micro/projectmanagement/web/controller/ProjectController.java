@@ -1,7 +1,11 @@
 package com.it2go.micro.projectmanagement.web.controller;
 
 import com.it2go.micro.projectmanagement.domain.Project;
+import com.it2go.micro.projectmanagement.search.ProjectTableItem;
+import com.it2go.micro.projectmanagement.search.SearchResultResponse;
+import com.it2go.micro.projectmanagement.services.ProjectSearchService;
 import com.it2go.micro.projectmanagement.services.ProjectService;
+import com.it2go.util.jpa.search.SearchTemplate;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +45,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class ProjectController {
 
   private final ProjectService projectService;
+  private final ProjectSearchService projectSearchService;
 
   @Operation(summary = "Get projects",
       description = "Get list of projects")
@@ -118,5 +123,15 @@ public class ProjectController {
   @GetMapping("/count")
   public ResponseEntity<Long> getProjectsCount() {
     return new ResponseEntity<>(projectService.countProjects(), HttpStatus.OK);
+  }
+
+  @Operation(summary = "Search projects for a given filter",
+      description = "Return a SearchResultResponse containing found projects")
+  @PostMapping("/search")
+  public ResponseEntity<SearchResultResponse> search(
+      @RequestBody @NotNull SearchTemplate searchTemplate) {
+    List<ProjectTableItem> projectTableItems = projectSearchService.filterProjects(searchTemplate);
+    SearchResultResponse searchResultResponse = new SearchResultResponse(projectTableItems);
+    return ResponseEntity.ok(searchResultResponse);
   }
 }

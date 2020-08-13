@@ -89,4 +89,5 @@ class ProjectControllerTest {
         .andExpect(jsonPath("$.publicId").value(project.getPublicId().toString()))
         .andExpect(status().isOk()).andReturn();
   }
+
 }
