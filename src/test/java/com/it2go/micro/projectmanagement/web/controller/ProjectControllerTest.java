@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it2go.micro.projectmanagement.domain.Project;
+import com.it2go.micro.projectmanagement.services.ProjectSearchService;
 import com.it2go.micro.projectmanagement.services.ProjectService;
 import com.it2go.micro.projectmanagement.util.ProjectProducer;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,8 @@ class ProjectControllerTest {
 
   @MockBean
   ProjectService projectService;
+  @MockBean
+  ProjectSearchService projectSearchService;
 
   @Test
   void getProjectByPublicId() throws Exception {
@@ -89,4 +92,5 @@ class ProjectControllerTest {
         .andExpect(jsonPath("$.publicId").value(project.getPublicId().toString()))
         .andExpect(status().isOk()).andReturn();
   }
+
 }
