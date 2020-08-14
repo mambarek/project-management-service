@@ -32,3 +32,8 @@ spring.datasource.initialization-mode=always
 >
 In <b>production</b>, we create the database with sql scripts under resources/db manually.
 For integration tests we can use the auto-generation mechanism or the schema.sql 
+
+### Split Unit test from Integration tests
+in pom.xml add the maven surfire plugin and separate unit tests for IT tests
+Unit test run in maven goal test and Integration tests run in maven goal verify  
+So you can in jenkins run only unit tests "mvn test" run integration test too with "mvn verify"
