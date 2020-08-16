@@ -7,7 +7,7 @@
         <version>2.0.2</version>
     </parent>
     <artifactId>project-management-service</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>project-management-service</name>
     <description>Project management service</description>
 
@@ -16,7 +16,7 @@
             scm:git:http://mmbarek:mmbarek@ubuntu-server:7990/scm/ema/project-management-service.git
         </developerConnection>
         <url>http://ubuntu-server:7990/scm/ema/project-management-service</url>
-      <tag>project-management-service-1.0.0</tag>
+      <tag>project-management-service-1.0.1</tag>
   </scm>
 
     <dependencies>
