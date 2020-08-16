@@ -35,7 +35,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
         title = "Project Management Service API",
         description = "API for Project management App",
         version = "1.0",
-        license = @License(name = "Apache license 2.0", url = "http://www.it-2go.de"),
+        license = @License(name = "Apache license 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html"),
         contact = @Contact(url = "http://gigantic-server.com", name = "Mohamed Ali Mbarek", email = "mbarek@it-2go.de")
     )
 )

@@ -5,12 +5,22 @@ Projects are consumed from Employees Servive
 ### H2
 http://localhost:8020/h2-console
 
+### OpenAPI
+We use the SPringfoc-openapi
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+See for details        
+https://springdoc.org/        
+        
 ### Swagger UI
 ATTENTION: HAL-Browser and Explorer don't work with Swagger
-it rises exceptions so avoid it to add them
-#### api-docs
+it rises exceptions so avoid it to add them  
+#### api-docs json format
 http://localhost:8020/v3/api-docs
-#### YAML
+#### YAML format to download
 http://localhost:8020/v3/api-docs.yaml
 
 #### swagger ui
