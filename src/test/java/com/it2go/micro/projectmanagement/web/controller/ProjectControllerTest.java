@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -85,10 +85,11 @@ class ProjectControllerTest {
 
     when(projectService.updateProject(any())).thenReturn(project);
 
-    MvcResult mvcResult = mockMvc.perform(put("/api/v1/projects/{publicId}", project.getPublicId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .accept(MediaType.APPLICATION_JSON)
-        .content(projectJson))
+    MvcResult mvcResult = mockMvc
+        .perform(patch("/api/v1/projects/{publicId}", project.getPublicId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .content(projectJson))
         .andExpect(jsonPath("$.publicId").value(project.getPublicId().toString()))
         .andExpect(status().isOk()).andReturn();
   }
