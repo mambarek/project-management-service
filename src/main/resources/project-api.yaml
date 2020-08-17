@@ -37,6 +37,13 @@ paths:
       tags:
         - project-controller
       operationId: updateProject
+      parameters:
+        - name: publicId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           application/json:
