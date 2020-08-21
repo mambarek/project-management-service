@@ -16,6 +16,7 @@ import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.services.ProjectSearchService;
 import com.it2go.micro.projectmanagement.services.ProjectService;
 import com.it2go.micro.projectmanagement.util.ProjectProducer;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -92,6 +93,21 @@ class ProjectControllerTest {
             .content(projectJson))
         .andExpect(jsonPath("$.publicId").value(project.getPublicId().toString()))
         .andExpect(status().isOk()).andReturn();
+  }
+
+  @Test
+  void updateProjectShouldReturnBadRequest() throws Exception {
+    Project project = ProjectProducer.createProject();
+    String projectJson = objectMapper.writeValueAsString(project);
+
+    when(projectService.updateProject(any())).thenReturn(project);
+
+    MvcResult mvcResult = mockMvc
+        .perform(patch("/api/v1/projects/{publicId}", UUID.randomUUID())
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .content(projectJson))
+        .andExpect(status().isBadRequest()).andReturn();
   }
 
 }
