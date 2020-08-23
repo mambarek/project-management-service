@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it2go.micro.projectmanagement.ProjectManagementApplication;
+import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity_;
 import com.it2go.micro.projectmanagement.search.SearchResultResponse;
 import com.it2go.util.jpa.search.Group;
@@ -55,5 +56,26 @@ public class ProjectControllerIT {
 
     assertEquals(searchResultResponse.getProjectTableItems().size(), 1);
     System.out.println(searchResultResponse);
+  }
+
+  @Test
+  void testUpdateProject() {
+    String baseUrl = "http://localhost:" + port + "/api/v1/projects";
+    Project[] projects = restTemplate
+        .getForObject(baseUrl, Project[].class);
+
+    System.out.println(projects[0]);
+    Project project1 = projects[0];
+    System.out.println("-->> Step 2");
+    project1.setName("New Google App");
+    restTemplate
+        .put(baseUrl + "/" + project1.getPublicId(), project1);
+
+    //System.out.println(updatedProject);
+    System.out.println("-->> Step 3");
+    Project[] projects2 = restTemplate
+        .getForObject(baseUrl, Project[].class);
+
+    System.out.println(projects2[0]);
   }
 }
