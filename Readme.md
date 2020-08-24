@@ -47,3 +47,6 @@ For integration tests we can use the auto-generation mechanism or the schema.sql
 in pom.xml add the maven surfire plugin and separate unit tests for IT tests
 Unit test run in maven goal test and Integration tests run in maven goal verify  
 So you can in jenkins run only unit tests "mvn test" run integration test too with "mvn verify"
+
+## Cors Problem
+Cors problems are now fixed with th WebConfig class
