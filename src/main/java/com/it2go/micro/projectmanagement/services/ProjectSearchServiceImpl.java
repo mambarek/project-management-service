@@ -83,7 +83,6 @@ public class ProjectSearchServiceImpl implements ProjectSearchService {
 
     query.setFirstResult(searchTemplate.getOffset());
 
-    final List<ProjectTableItem> resultList = query.getResultList();
-    return resultList;
+    return query.getResultList();
   }
 }
