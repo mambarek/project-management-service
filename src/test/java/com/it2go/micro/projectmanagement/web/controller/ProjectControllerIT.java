@@ -7,11 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it2go.micro.projectmanagement.ProjectManagementApplication;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity_;
-import com.it2go.micro.projectmanagement.search.SearchResultResponse;
+import com.it2go.micro.projectmanagement.search.ProjectTableItem;
 import com.it2go.util.jpa.search.Group;
 import com.it2go.util.jpa.search.Operation;
 import com.it2go.util.jpa.search.Rule;
 import com.it2go.util.jpa.search.RuleType;
+import com.it2go.util.jpa.search.SearchResult;
 import com.it2go.util.jpa.search.SearchTemplate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +51,12 @@ public class ProjectControllerIT {
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
-    SearchResultResponse searchResultResponse = restTemplate
+    SearchResult<ProjectTableItem> searchResult = restTemplate
         .postForObject("http://localhost:" + port + "/api/v1/projects/search",
-            employeesSearchTemplate, SearchResultResponse.class);
+            employeesSearchTemplate, SearchResult.class);
 
-    assertEquals(searchResultResponse.getProjectTableItems().size(), 1);
-    System.out.println(searchResultResponse);
+    assertEquals(searchResult.getRows().size(), 1);
+    System.out.println(searchResult);
   }
 
   @Test

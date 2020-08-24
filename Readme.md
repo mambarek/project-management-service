@@ -17,9 +17,11 @@ https://springdoc.org/
         
 ### Swagger UI
 ATTENTION: HAL-Browser and Explorer don't work with Swagger
-it rises exceptions so avoid it to add them  
+it rises exceptions so avoid it to add them
+  
 #### api-docs json format
 http://localhost:8020/v3/api-docs
+
 #### YAML format to download
 http://localhost:8020/v3/api-docs.yaml
 
