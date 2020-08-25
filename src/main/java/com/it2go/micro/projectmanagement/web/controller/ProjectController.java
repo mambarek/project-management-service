@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -95,6 +96,16 @@ public class ProjectController {
     return new ResponseEntity<>(updatedProject, HttpStatus.OK);
   }
 
+  @Operation(summary = "Delete a project with a public id",
+      description = "Delete a project with a public id")
+  @DeleteMapping("/{publicId}")
+  public ResponseEntity<Void> deleteProject(@PathVariable("publicId") @NotNull UUID publicId) {
+
+    projectService.deleteProject(publicId);
+
+    return ResponseEntity.noContent().build();
+  }
+
   @Operation(summary = "Returns the count of all projects",
       description = "Returns the count of all projects")
   @GetMapping("/count")
@@ -103,7 +114,7 @@ public class ProjectController {
   }
 
   @Operation(summary = "Search projects for a given filter",
-      description = "Return a SearchResultResponse containing found projects")
+      description = "Return a SearchResult containing found projects")
   @PostMapping("/search")
   public ResponseEntity<SearchResult<ProjectTableItem>> search(
       @RequestBody @NotNull SearchTemplate searchTemplate) {
