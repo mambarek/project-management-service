@@ -51,6 +51,13 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
+  public void deleteProject(UUID publicId) {
+    ProjectEntity byPublicId = projectRepository.findByPublicId(publicId)
+        .orElseThrow(NegativeArraySizeException::new);
+    projectRepository.delete(byPublicId);
+  }
+
+  @Override
   public Long countProjects() {
     return projectRepository.count();
   }

@@ -14,5 +14,7 @@ public interface ProjectService {
 
   Project updateProject(Project project);
 
+  void deleteProject(UUID publicId);
+
   Long countProjects();
 }
