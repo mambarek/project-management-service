@@ -1,8 +1,9 @@
-package com.it2go.micro.projectmanagement.services;
+package com.it2go.micro.projectmanagement.services.impl;
 
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity_;
 import com.it2go.micro.projectmanagement.search.ProjectTableItem;
+import com.it2go.micro.projectmanagement.services.ProjectSearchService;
 import com.it2go.util.jpa.search.PredicateBuilder;
 import com.it2go.util.jpa.search.SearchTemplate;
 import java.util.List;
@@ -57,10 +58,10 @@ public class ProjectSearchServiceImpl implements ProjectSearchService {
     if (searchTemplate.getOrderBy() != null && !searchTemplate.getOrderBy()
         .isEmpty()) {
       switch (searchTemplate.getOrderDirection()) {
-        case "asc":
+        case ASC:
           orderBy = cb.asc(projectEntityRoot.get(searchTemplate.getOrderBy()));
           break;
-        case "desc":
+        case DESC:
           orderBy = cb.desc(projectEntityRoot.get(searchTemplate.getOrderBy()));
           break;
       }

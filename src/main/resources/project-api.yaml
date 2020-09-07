@@ -4,7 +4,6 @@ info:
   description: API for Project management App
   contact:
     name: Mohamed Ali Mbarek
-    url: http://gigantic-server.com
     email: mbarek@it-2go.de
   license:
     name: Apache license 2.0
@@ -97,21 +96,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Project'
-  /api/v1/projects/count:
-    get:
-      tags:
-        - project-controller
-      summary: Returns the count of all projects
-      description: Returns the count of all projects
-      operationId: getProjectsCount
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
   /api/v1/projects:
     get:
       tags:
@@ -147,6 +131,21 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Project'
+  /api/v1/projects/count:
+    get:
+      tags:
+        - project-controller
+      summary: Returns the count of all projects
+      description: Returns the count of all projects
+      operationId: getProjectsCount
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
 components:
   schemas:
     Group:
@@ -206,6 +205,9 @@ components:
           type: string
         orderDirection:
           type: string
+          enum:
+            - ASC
+            - DESC
         maxResult:
           type: integer
           format: int32

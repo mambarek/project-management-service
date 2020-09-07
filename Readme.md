@@ -6,7 +6,7 @@ Projects are consumed from Employees Servive
 http://localhost:8020/h2-console
 
 ### OpenAPI
-We use the SPringfoc-openapi
+We use the Springdoc-openapi
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
