@@ -1,0 +1,27 @@
+#++++++++++++++++++++++++++++++++++++++++++++++
+# Secret
+#++++++++++++++++++++++++++++++++++++++++++++++
+
+> kubectl create secret generic pgpassword --from-literal PGPASSWORD=password123
+                        tls
+                        docker-registry
+
+
+#+++++++++++++++++++++++
+ingress-nginx
+#++++++++++++++++++++++
+enable ingress on minikube
+
+https://kubernetes.github.io/ingress-nginx/deploy/#minikube
+
+> minikube addons enable ingress
+
+X Exiting due to MK_USAGE: Due to networking limitations of driver docker on windows, ingress addon is not supported.
+Alternatively to use this addon you can use a vm-based driver:
+
+        'minikube start --vm=true'
+
+To track the update on this work in progress feature please check:
+https://github.com/kubernetes/minikube/issues/7332
+
+so do it and restart minikube with vm=true

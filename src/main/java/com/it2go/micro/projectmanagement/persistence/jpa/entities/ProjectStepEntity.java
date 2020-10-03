@@ -8,9 +8,11 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +31,11 @@ import lombok.Setter;
 public class ProjectStepEntity implements
     Serializable { // serializable is needed from JPA, without it rise exception
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_step_seq_gen")
+  @SequenceGenerator(name = "project_step_seq_gen", sequenceName = "project_step_seq", allocationSize = 50)
+  @Column(name = "id", updatable = false, nullable = false)
+  private Long id;
 
     @Column(name = "PUBLIC_ID", unique = true, nullable = false)
     private UUID publicId;

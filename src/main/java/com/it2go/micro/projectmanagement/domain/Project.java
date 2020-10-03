@@ -1,20 +1,22 @@
 package com.it2go.micro.projectmanagement.domain;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Project {
+public class Project implements Serializable {
+
+  static final long serialVersionUID = 645618260758668328L;
 
   @NotNull
   private UUID publicId;

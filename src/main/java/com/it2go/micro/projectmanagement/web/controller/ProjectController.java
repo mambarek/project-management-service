@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import java.net.URI;
@@ -46,7 +47,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
         version = "1.0",
         license = @License(name = "Apache license 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html"),
         contact = @Contact(url = "", name = "Mohamed Ali Mbarek", email = "mbarek@it-2go.de")
-    )
+    ),
+
+    servers = {
+        @Server(url = "/", description = "localhost"),
+        @Server(url = "/services/pms", description = "production on k8s")
+    }
 )
 @Tags(value = {@Tag(name = "Projects", description = "Projects Management Application")})
 @RestController

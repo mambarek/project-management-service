@@ -12,6 +12,12 @@ create table if not exists project
     status      varchar(20)
 );
 
+-- auto-generated definition
+create sequence if not exists project_seq
+    increment by 50;
+
+alter sequence project_seq owner to postgres;
+
 create table if not exists project_step
 (
     id          bigint       not null primary key,
@@ -28,4 +34,10 @@ create table if not exists project_step
         constraint project_step_project_fk
             references project (public_id)
 );
+
+-- auto-generated definition
+create sequence if not exists project_step_seq
+    increment by 50;
+
+alter sequence project_step_seq owner to postgres;
 

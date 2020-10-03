@@ -11,8 +11,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,9 +30,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "PROJECT")
 public class ProjectEntity implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_seq_gen")
+  @SequenceGenerator(name = "project_seq_gen", sequenceName = "project_seq", allocationSize = 50)
+  @Column(name = "id", updatable = false, nullable = false)
+  private Long id;
 
     @Column(name = "PUBLIC_ID", unique = true, nullable = false)
     private UUID publicId;
