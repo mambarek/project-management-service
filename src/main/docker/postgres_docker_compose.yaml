@@ -1,8 +1,8 @@
 version: "3"
 services:
-  postgres_bitbucket:
+  projects-postgres:
     image: postgres
-    container_name: 'postgres_dev'
+    container_name: 'projects-postgres'
     volumes:
       - postgresqldata:/var/lib/postgresql/data
     ports:
