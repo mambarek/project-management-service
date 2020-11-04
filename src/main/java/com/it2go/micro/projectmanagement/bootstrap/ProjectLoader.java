@@ -23,6 +23,8 @@ public class ProjectLoader implements CommandLineRunner {
   public void run(String... args) throws Exception {
     Project saveNewProject = projectService.saveNewProject(createProject());
     System.out.println(saveNewProject);
+    projectService.saveNewProject(createProject2());
+    projectService.saveNewProject(createProject3());
   }
 
   public static Project createProject() {
@@ -52,6 +54,104 @@ public class ProjectLoader implements CommandLineRunner {
         .name("Build walls")
         .description("Build the walls and rooms")
         .budget(150000.00)
+        .planedStartDate(LocalDate.of(2020, Month.DECEMBER, 1))
+        .planedFinishDate(LocalDate.of(2020, Month.FEBRUARY, 28))
+        .status(ProjectStepStatus.WAITING)
+        .build();
+
+    ProjectStep step3 = ProjectStep.builder()
+        .publicId(UUID.randomUUID())
+        .name("Build roof")
+        .description("Build the roof")
+        .budget(150000.00)
+        .planedStartDate(LocalDate.of(2020, Month.MARCH, 1))
+        .planedFinishDate(LocalDate.of(2020, Month.APRIL, 30))
+        .status(ProjectStepStatus.WAITING)
+        .build();
+
+    project.getProjectSteps().add(step1);
+    project.getProjectSteps().add(step2);
+    project.getProjectSteps().add(step3);
+
+    return project;
+  }
+
+  public static Project createProject2() {
+    Project project = Project.builder()
+        .publicId(UUID.randomUUID())
+        .name("Soccer stadium")
+        .budget(50000000.00)
+        .description("Soccer stadium for world cup 2026")
+        .planedStartDate(LocalDate.of(2020, Month.FEBRUARY, 1))
+        .planedFinishDate(LocalDate.of(2026, 1, 31))
+        .status(ProjectStatus.WAITING)
+        .projectSteps(new ArrayList<>())
+        .build();
+
+    ProjectStep step1 = ProjectStep.builder()
+        .publicId(UUID.randomUUID())
+        .name("Ground work")
+        .description("Prepare the ground and the stadium base")
+        .budget(1500000.00)
+        .planedStartDate(LocalDate.of(2020, 2, 15))
+        .planedFinishDate(LocalDate.of(2020, Month.AUGUST, 30))
+        .status(ProjectStepStatus.WAITING)
+        .build();
+
+    ProjectStep step2 = ProjectStep.builder()
+        .publicId(UUID.randomUUID())
+        .name("Build walls")
+        .description("Build the walls and rooms")
+        .budget(1500000.00)
+        .planedStartDate(LocalDate.of(2020, Month.DECEMBER, 1))
+        .planedFinishDate(LocalDate.of(2020, Month.FEBRUARY, 28))
+        .status(ProjectStepStatus.WAITING)
+        .build();
+
+    ProjectStep step3 = ProjectStep.builder()
+        .publicId(UUID.randomUUID())
+        .name("Build roof")
+        .description("Build the roof")
+        .budget(150000.00)
+        .planedStartDate(LocalDate.of(2020, Month.MARCH, 1))
+        .planedFinishDate(LocalDate.of(2020, Month.APRIL, 30))
+        .status(ProjectStepStatus.WAITING)
+        .build();
+
+    project.getProjectSteps().add(step1);
+    project.getProjectSteps().add(step2);
+    project.getProjectSteps().add(step3);
+
+    return project;
+  }
+
+  public static Project createProject3() {
+    Project project = Project.builder()
+        .publicId(UUID.randomUUID())
+        .name("Airport Chicago")
+        .budget(300000000.00)
+        .description("The new Airport of Chicago")
+        .planedStartDate(LocalDate.of(2020, Month.FEBRUARY, 1))
+        .planedFinishDate(LocalDate.of(2026, 1, 31))
+        .status(ProjectStatus.WAITING)
+        .projectSteps(new ArrayList<>())
+        .build();
+
+    ProjectStep step1 = ProjectStep.builder()
+        .publicId(UUID.randomUUID())
+        .name("Ground work")
+        .description("Prepare the ground and the stadium base")
+        .budget(1500000.00)
+        .planedStartDate(LocalDate.of(2020, 2, 15))
+        .planedFinishDate(LocalDate.of(2020, Month.AUGUST, 30))
+        .status(ProjectStepStatus.WAITING)
+        .build();
+
+    ProjectStep step2 = ProjectStep.builder()
+        .publicId(UUID.randomUUID())
+        .name("Build walls")
+        .description("Build the walls and rooms")
+        .budget(1500000.00)
         .planedStartDate(LocalDate.of(2020, Month.DECEMBER, 1))
         .planedFinishDate(LocalDate.of(2020, Month.FEBRUARY, 28))
         .status(ProjectStepStatus.WAITING)
