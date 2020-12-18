@@ -3,6 +3,7 @@ package com.it2go.micro.projectmanagement.services.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it2go.micro.projectmanagement.domain.Project;
+import com.it2go.micro.projectmanagement.domain.ProjectStatus;
 import com.it2go.micro.projectmanagement.mapper.ProjectMapper;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.repositories.ProjectRepository;
@@ -45,6 +46,11 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public Project saveNewProject(Project project) {
+
+    project.setPublicId(UUID.randomUUID());
+    project.setStatus(ProjectStatus.WAITING);
+    if (project.getProjectSteps() == null) project.setProjectSteps(new ArrayList<>());
+
     log.info(String.format("-- saveNewProject: [%s]", project.getPublicId()));
     ProjectEntity projectEntity = projectMapper.projectToProjectEntity(project);
     ProjectEntity savedProjectEntity = projectRepository.save(projectEntity);

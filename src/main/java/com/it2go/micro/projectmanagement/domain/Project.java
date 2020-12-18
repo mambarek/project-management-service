@@ -18,7 +18,6 @@ public class Project implements Serializable {
 
   static final long serialVersionUID = 645618260758668328L;
 
-  @NotNull
   private UUID publicId;
   private String name;
   private String description;

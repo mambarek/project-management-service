@@ -17,7 +17,6 @@ public class ProjectStep implements Serializable {
 
     static final long serialVersionUID = 4614699075754850558L;
 
-    @NotNull
     private UUID publicId;
     private String name;
     private String description;
