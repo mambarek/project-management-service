@@ -349,5 +349,7 @@ components:
     ProjectExportEvent:
       type: object
       properties:
-        project:
-          $ref: '#/components/schemas/Project'
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'

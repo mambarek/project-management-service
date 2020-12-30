@@ -48,12 +48,27 @@ public class ProjectEventListener {
 
   }
 
-  @Transactional // lazy load from hibernate exception
+/*  @Transactional // lazy load from hibernate exception
   @JmsListener(destination = "PROJECT_IMPOR_QUEUE")
   public void exportAllProjects(){
     List<Project> allProjects = projectService.findAllProjects();
     ProjectExportEvent projectExportEvent = new ProjectExportEvent(allProjects);
     jmsTemplate.convertAndSend("PROJECT_EXPORT_QUEUE", projectExportEvent);
+  }*/
+
+  @Transactional // lazy load from hibernate exception
+  @JmsListener(destination = "PROJECT_IMPOR_QUEUE")
+  public void exportAllProjectsJson(){
+    List<Project> allProjects = projectService.findAllProjects();
+    ProjectExportEvent projectExportEvent = new ProjectExportEvent(allProjects);
+    //jmsTemplate.convertAndSend("PROJECT_EXPORT_QUEUE", projectExportEvent);
+
+    try {
+      String valueAsString = objectMapper.writeValueAsString(projectExportEvent);
+      jmsTemplate.convertAndSend("PROJECT_EXPORT_QUEUE", valueAsString);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
   }
 
   @JmsListener(destination = "test.send.receive")

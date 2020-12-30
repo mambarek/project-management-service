@@ -19,5 +19,5 @@ public class ProjectExportEvent implements Serializable {
 
     static final long serialVersionUID = -7455219239661735842L;
 
-    private List<Project> projectsList;
+    private List<Project> projects;
 }

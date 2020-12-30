@@ -43,6 +43,14 @@ class ProjectEventListenerTest {
   }
 
   @Test
+  void importProjectJson() {
+    jmsTemplate.convertAndSend("PROJECT_IMPOR_QUEUE", "");
+    Object projects = jmsTemplate.receiveAndConvert("PROJECT_EXPORT_QUEUE");
+    System.out.println("-- All Projects");
+    System.out.println(projects);
+  }
+
+  @Test
   void testReceiveMessage() {
    // MessageCreator mc = s -> s.createTextMessage("Hello Spring JMS!!! from creator");
     //jmsTemplate.send("test.send.receive", mc);
