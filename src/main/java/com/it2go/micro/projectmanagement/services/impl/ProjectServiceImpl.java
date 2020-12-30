@@ -2,6 +2,7 @@ package com.it2go.micro.projectmanagement.services.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.it2go.micro.projectmanagement.config.JmsConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
 import com.it2go.micro.projectmanagement.mapper.ProjectMapper;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class ProjectServiceImpl implements ProjectService {
 
   private final ProjectMapper projectMapper;
   private final ProjectRepository projectRepository;
-  //private final JmsTemplate jmsTemplate;
+  private final JmsTemplate jmsTemplate;
   private final ObjectMapper objectMapper;
 
   @Override
@@ -46,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public Project saveNewProject(Project project) {
-
+if(project.getPublicId() == null)
     project.setPublicId(UUID.randomUUID());
     project.setStatus(ProjectStatus.WAITING);
     if (project.getProjectSteps() == null) project.setProjectSteps(new ArrayList<>());
@@ -59,15 +61,15 @@ public class ProjectServiceImpl implements ProjectService {
     log.info(String.format("-- saveNewProject: [%s] saved successfully", project.getPublicId()));
     log.info(String.format("-- saveNewProject: [%s] send creation event", project.getPublicId()));
 
-    //jmsTemplate.convertAndSend(JmsConfig.NEW_PROJECTS_QUEUE, savedProject);
+    jmsTemplate.convertAndSend(JmsConfig.NEW_PROJECTS_QUEUE, savedProject);
 
-    try {
+/*    try {
       String valueAsString = objectMapper.writeValueAsString(savedProject);
       MessageCreator mc = s -> s.createTextMessage(valueAsString);
-      //jmsTemplate.send(JmsConfig.NEW_PROJECTS_QUEUE, mc);
+      jmsTemplate.send(JmsConfig.NEW_PROJECTS_QUEUE, mc);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    }
+    }*/
 
     return savedProject;
   }
@@ -84,7 +86,7 @@ public class ProjectServiceImpl implements ProjectService {
     log.info(String.format("-- updateProject: [%s] updated successfully", project.getPublicId()));
     log.info(String.format("-- updateProject: [%s] send update event", project.getPublicId()));
     // send event of update
-    //jmsTemplate.convertAndSend(JmsConfig.PROJECTS_CHANGED_QUEUE, updatedProject);
+    jmsTemplate.convertAndSend(JmsConfig.PROJECTS_CHANGED_QUEUE, updatedProject);
 
     return updatedProject;
   }

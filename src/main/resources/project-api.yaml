@@ -146,6 +146,18 @@ paths:
               schema:
                 type: integer
                 format: int64
+
+  /api/v1/projects/jms:
+    get:
+      summary: This is a dummy API its used only to generate JMS artifacts on the client side
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProjectExportEvent'
+
 components:
   schemas:
     Group:
@@ -333,3 +345,9 @@ components:
             - WORKING
             - STOPPED
             - FINISHED
+
+    ProjectExportEvent:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/Project'

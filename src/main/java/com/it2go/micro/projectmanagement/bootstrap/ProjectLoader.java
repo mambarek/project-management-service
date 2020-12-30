@@ -29,7 +29,7 @@ public class ProjectLoader implements CommandLineRunner {
 
   public static Project createProject() {
     Project project = Project.builder()
-        .publicId(UUID.randomUUID())
+        .publicId(UUID.fromString("9a03a91d-8593-443f-a652-dd3a00dcfd81"))
         .name("New Building")
         .budget(500000.00)
         .description("New building as residential complex contain 8 flats")
