@@ -36,7 +36,7 @@ public class ProjectEntity implements Serializable {
   @Column(name = "id", updatable = false, nullable = false)
   private Long id;
 
-    @Column(name = "PUBLIC_ID", unique = true, nullable = false)
+    @Column(name = "PUBLIC_ID", unique = true, nullable = false, updatable = false)
     private UUID publicId;
 
     @Basic

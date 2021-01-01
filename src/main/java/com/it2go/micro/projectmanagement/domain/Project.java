@@ -2,9 +2,9 @@ package com.it2go.micro.projectmanagement.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,5 +28,6 @@ public class Project implements Serializable {
   private LocalDate finishDate;
   private ProjectStatus status;
 
-  private List<ProjectStep> projectSteps;
+  private List<ProjectStep> projectSteps = new ArrayList<>();
+  private List<UUID> assignedEmployees = new ArrayList<>();
 }

@@ -147,6 +147,18 @@ paths:
               schema:
                 type: integer
                 format: int64
+
+  /api/v1/projects/jms:
+    get:
+      summary: This is a dummy API its used only to generate JMS artifacts on the client side
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProjectExportEvent'
+
 components:
   schemas:
     ProjectTableItem:
@@ -232,10 +244,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProjectStep'
-        employees:
+        assignedEmployees:
           type: array
           items:
-            $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/employees/v1/employees-api.yaml#/components/schemas/Employee'
+            type: string
+            format: uuid
 
 
     ProjectStep:
