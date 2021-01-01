@@ -24,7 +24,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SearchTemplate'
+              # relative paths not working. paths must be absolute because the parsing is evaluated on the client
+              $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/commons/v1/shared-objects-schema.yaml#/components/schemas/SearchTemplate'
         required: true
       responses:
         "200":
@@ -146,88 +147,8 @@ paths:
               schema:
                 type: integer
                 format: int64
-
-  /api/v1/projects/jms:
-    get:
-      summary: This is a dummy API its used only to generate JMS artifacts on the client side
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ProjectExportEvent'
-
 components:
   schemas:
-    Group:
-      type: object
-      properties:
-        groupOp:
-          type: string
-          enum:
-            - AND
-            - OR
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Rule'
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group'
-    Rule:
-      type: object
-      properties:
-        field:
-          type: string
-        op:
-          type: string
-          enum:
-            - EQUAL
-            - NOT_EQUAL
-            - LESS
-            - LESS_OR_EQUAL
-            - GREATER
-            - GREATER_OR_EQUAL
-            - BEGINS_WITH
-            - NOT_BEGIN_WITH
-            - IN
-            - NOT_IN
-            - ENDS_WITH
-            - NOT_ENDS_WITH
-            - CONTAINS
-            - NOT_CONTAINS
-            - "NULL"
-            - NOT_NULL
-            - BETWEEN
-        data:
-          type: string
-        type:
-          type: string
-          enum:
-            - STRING
-            - NUMBER
-            - DATE
-            - TIMESTAMP
-    SearchTemplate:
-      type: object
-      properties:
-        orderBy:
-          type: string
-        orderDirection:
-          type: string
-          enum:
-            - ASC
-            - DESC
-        maxResult:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int32
-        filters:
-          $ref: '#/components/schemas/Group'
     ProjectTableItem:
       type: object
       properties:
@@ -311,6 +232,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProjectStep'
+        employees:
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/employeess/v1/employees-api.yaml#/components/schemas/Employee'
+
+
     ProjectStep:
       required:
         - publicId
@@ -345,11 +272,3 @@ components:
             - WORKING
             - STOPPED
             - FINISHED
-
-    ProjectExportEvent:
-      type: object
-      properties:
-        projects:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
