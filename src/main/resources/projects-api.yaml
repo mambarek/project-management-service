@@ -235,7 +235,7 @@ components:
         employees:
           type: array
           items:
-            $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/employeess/v1/employees-api.yaml#/components/schemas/Employee'
+            $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/employees/v1/employees-api.yaml#/components/schemas/Employee'
 
 
     ProjectStep:
