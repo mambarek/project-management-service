@@ -1,5 +1,6 @@
 package com.it2go.micro.projectmanagement.domain;
 
+import com.it2go.micro.employeesservice.domian.Employee;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,5 +30,5 @@ public class Project implements Serializable {
   private ProjectStatus status;
 
   private List<ProjectStep> projectSteps = new ArrayList<>();
-  private List<UUID> assignedEmployees = new ArrayList<>();
+  private List<Employee> assignedEmployees = new ArrayList<>();
 }
