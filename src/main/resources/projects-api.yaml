@@ -272,3 +272,11 @@ components:
             - WORKING
             - STOPPED
             - FINISHED
+
+    ProjectExportEvent:
+      type: object
+      properties:
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
