@@ -1,9 +1,14 @@
 package com.it2go.micro.projectmanagement.bootstrap;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.it2go.micro.employeesservice.domian.EmployeeExportEvent;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
 import com.it2go.micro.projectmanagement.domain.ProjectStep;
 import com.it2go.micro.projectmanagement.domain.ProjectStepStatus;
+import com.it2go.micro.projectmanagement.events.ProjectExportEvent;
+import com.it2go.micro.projectmanagement.services.EmployeeService;
 import com.it2go.micro.projectmanagement.services.ProjectService;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,6 +16,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -18,6 +24,9 @@ import org.springframework.stereotype.Component;
 public class ProjectLoader implements CommandLineRunner {
 
   private final ProjectService projectService;
+  private final JmsTemplate jmsTemplate;
+  private final ObjectMapper objectMapper;
+  private final EmployeeService employeeService;
 
   @Override
   public void run(String... args) throws Exception {
@@ -25,6 +34,7 @@ public class ProjectLoader implements CommandLineRunner {
     System.out.println(saveNewProject);
     projectService.saveNewProject(createProject2());
     projectService.saveNewProject(createProject3());
+    importEmployees();
   }
 
   public static Project createProject() {
@@ -172,5 +182,23 @@ public class ProjectLoader implements CommandLineRunner {
     project.getProjectSteps().add(step3);
 
     return project;
+  }
+
+  public void importEmployees(){
+    jmsTemplate.convertAndSend("EMPLOYEE_IMPORT_QUEUE", "");
+    String employeeExportEventJson = (String) jmsTemplate.receiveAndConvert("EMPLOYEE_EXPORT_QUEUE");
+    System.out.println("-- All Employees");
+    System.out.println(employeeExportEventJson);
+    if(employeeExportEventJson == null) return;
+
+    System.out.println("-- Employee import save all employees!");
+    try {
+      EmployeeExportEvent employeeExportEvent = objectMapper
+          .readValue(employeeExportEventJson, EmployeeExportEvent.class);
+      employeeExportEvent.getEmployees().forEach(employeeService::saveNewEmployee);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+
   }
 }

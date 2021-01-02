@@ -57,7 +57,7 @@ public class ProjectEventListener {
   }*/
 
   @Transactional // lazy load from hibernate exception
-  @JmsListener(destination = "PROJECT_IMPOR_QUEUE")
+  @JmsListener(destination = "PROJECT_IMPORT_QUEUE")
   public void exportAllProjectsJson(){
     List<Project> allProjects = projectService.findAllProjects();
     ProjectExportEvent projectExportEvent = new ProjectExportEvent(allProjects);
@@ -69,11 +69,6 @@ public class ProjectEventListener {
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
-  }
-
-  @JmsListener(destination = "test.send.receive")
-  public void testReceiveMessage(String message) throws JMSException {
-    System.out.println("-- testReceiveMessage: " + message);
   }
 
 }
