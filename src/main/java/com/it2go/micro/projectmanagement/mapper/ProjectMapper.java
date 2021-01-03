@@ -1,7 +1,11 @@
 package com.it2go.micro.projectmanagement.mapper;
 
+import com.it2go.micro.employeesservice.domian.Employee;
+import com.it2go.micro.employeesservice.domian.Gender;
+import com.it2go.micro.employeesservice.domian.PersonData;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStep;
+import com.it2go.micro.projectmanagement.persistence.jpa.entities.EmployeeEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectStepEntity;
 import java.util.HashMap;
@@ -16,6 +20,26 @@ import org.mapstruct.MappingTarget;
 public interface ProjectMapper {
 
     Project projectEntityToProject(ProjectEntity projectEntity);
+
+    default Employee employeeEntityToEmployee(EmployeeEntity employeeEntity){
+        if ( employeeEntity == null ) {
+            return null;
+        }
+
+        Employee employee = new Employee();
+        PersonData personData = new PersonData();
+
+        personData.setFirstName(employeeEntity.getFirstName());
+        personData.setLastName(employeeEntity.getLastName());
+        personData.setBirthDate(employeeEntity.getBirthDate());
+        personData.setGender(Gender.valueOf(employeeEntity.getGender()));
+        personData.setEmail(employeeEntity.getEmail());
+
+        employee.setData(personData);
+        employee.publicId( employeeEntity.getPublicId() );
+
+        return employee;
+    }
 
     ProjectEntity simpleProjectToProjectEntity(Project project);
 
@@ -33,6 +57,7 @@ public interface ProjectMapper {
     // UPDATE existing entity
     // ignore steps collection this would be handled explicitly, because of id not existing in model
     @Mapping(source = "projectSteps", target = "projectSteps", ignore = true)
+    @Mapping(source = "assignedEmployees", target = "assignedEmployees", ignore = true)
     ProjectEntity simpleUpdateProjectEntity(@MappingTarget ProjectEntity projectEntity,
         Project project);
 

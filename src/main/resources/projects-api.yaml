@@ -132,6 +132,7 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Project'
+
   /api/v1/projects/count:
     get:
       tags:
@@ -147,6 +148,21 @@ paths:
               schema:
                 type: integer
                 format: int64
+
+  /api/v1/employees:
+    get:
+      tags:
+        - employees-controller
+      operationId: findAllEmployees
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/employees/v1/employees-api.yaml#/components/schemas/Employee'
 
   /api/v1/projects/jms:
     get:
@@ -247,8 +263,7 @@ components:
         assignedEmployees:
           type: array
           items:
-            type: string
-            format: uuid
+            $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/employees/v1/employees-api.yaml#/components/schemas/Employee'
 
 
     ProjectStep:

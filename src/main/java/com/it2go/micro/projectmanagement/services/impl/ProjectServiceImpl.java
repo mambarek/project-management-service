@@ -2,11 +2,14 @@ package com.it2go.micro.projectmanagement.services.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.it2go.micro.employeesservice.domian.Employee;
 import com.it2go.micro.projectmanagement.config.JmsConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
 import com.it2go.micro.projectmanagement.mapper.ProjectMapper;
+import com.it2go.micro.projectmanagement.persistence.jpa.entities.EmployeeEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity;
+import com.it2go.micro.projectmanagement.persistence.jpa.repositories.EmployeeRepository;
 import com.it2go.micro.projectmanagement.persistence.jpa.repositories.ProjectRepository;
 import com.it2go.micro.projectmanagement.services.EntityNotFoundException;
 import com.it2go.micro.projectmanagement.services.ProjectService;
@@ -26,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService {
 
   private final ProjectMapper projectMapper;
   private final ProjectRepository projectRepository;
+  private final EmployeeRepository employeeRepository;
   private final JmsTemplate jmsTemplate;
   private final ObjectMapper objectMapper;
 
@@ -80,6 +84,14 @@ if(project.getPublicId() == null)
     ProjectEntity byPublicId = projectRepository.findByPublicId(project.getPublicId())
         .orElseThrow(EntityNotFoundException::new);
 
+    List<EmployeeEntity> employeeEntities = new ArrayList<>();
+    for (Employee employee: project.getAssignedEmployees()){
+      EmployeeEntity employeeEntity = employeeRepository.findByPublicId(employee.getPublicId())
+          .orElseThrow(EntityNotFoundException::new);
+      employeeEntities.add(employeeEntity);
+    }
+
+    byPublicId.setAssignedEmployees(employeeEntities);
     ProjectEntity updatedProjectEntity = projectMapper.updateProjectEntity(byPublicId, project);
     ProjectEntity savedProjectEntity = projectRepository.save(updatedProjectEntity);
     Project updatedProject = projectMapper.projectEntityToProject(savedProjectEntity);
