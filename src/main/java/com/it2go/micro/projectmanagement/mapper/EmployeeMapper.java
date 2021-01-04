@@ -39,6 +39,7 @@ public interface EmployeeMapper {
   @Mapping(source = "data.birthDate", target = "birthDate")
   @Mapping(source = "data.gender", target = "gender")
   @Mapping(source = "data.email", target = "email")
+  @Mapping(source = "assignedProjects", target = "assignedProjects", ignore = true)
   EmployeeEntity employeeToEmployEntity(Employee employee);
 
 }

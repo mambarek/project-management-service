@@ -41,9 +41,8 @@ public interface ProjectMapper {
         return employee;
     }
 
+    @Mapping(source = "assignedEmployees", target = "assignedEmployees", ignore = true)
     ProjectEntity simpleProjectToProjectEntity(Project project);
-
-    List<ProjectStep> projectEntitiesToProjectSteps(List<ProjectStepEntity> projectStepEntities);
 
     List<ProjectStepEntity> projectStepsToProjectEntities(List<ProjectStep> projectSteps);
 

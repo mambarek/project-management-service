@@ -6,6 +6,7 @@ import com.it2go.micro.employeesservice.domian.Employee;
 import com.it2go.micro.projectmanagement.config.JmsConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
+import com.it2go.micro.projectmanagement.mapper.EmployeeMapper;
 import com.it2go.micro.projectmanagement.mapper.ProjectMapper;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.EmployeeEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.ProjectEntity;
@@ -30,8 +31,8 @@ public class ProjectServiceImpl implements ProjectService {
   private final ProjectMapper projectMapper;
   private final ProjectRepository projectRepository;
   private final EmployeeRepository employeeRepository;
+  private final EmployeeMapper employeeMapper;
   private final JmsTemplate jmsTemplate;
-  private final ObjectMapper objectMapper;
 
   @Override
   public List<Project> findAllProjects() {
@@ -52,13 +53,15 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public Project saveNewProject(Project project) {
-if(project.getPublicId() == null)
-    project.setPublicId(UUID.randomUUID());
+    if(project.getPublicId() == null)
+        project.setPublicId(UUID.randomUUID());
+
     project.setStatus(ProjectStatus.WAITING);
     if (project.getProjectSteps() == null) project.setProjectSteps(new ArrayList<>());
 
     log.info(String.format("-- saveNewProject: [%s]", project.getPublicId()));
     ProjectEntity projectEntity = projectMapper.projectToProjectEntity(project);
+
     ProjectEntity savedProjectEntity = projectRepository.save(projectEntity);
     Project savedProject = projectMapper.projectEntityToProject(savedProjectEntity);
 
