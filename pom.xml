@@ -17,6 +17,12 @@
     <openapi.definitions.url>
       https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions
     </openapi.definitions.url>
+    <fabric8-docker-maven-plugin>0.34.1</fabric8-docker-maven-plugin>
+    <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+    <docker.source.directory>docker</docker.source.directory>
+    <docker.dockerfile>Dockerfile</docker.dockerfile>
+    <docker.repository>mmbarek</docker.repository>
+    <docker.image.name>${project.artifactId}</docker.image.name>
   </properties>
 
   <scm>
@@ -124,6 +130,39 @@
               <generateModelDocumentation>true</generateModelDocumentation>
               <verbose>false</verbose>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>${fabric8-docker-maven-plugin}</version>
+        <configuration>
+          <verbose>true</verbose>
+          <images>
+            <image>
+              <name>${docker.repository}/${docker.image.name}</name>
+              <build>
+                <contextDir>${project.basedir}</contextDir>
+                <dockerFile>${docker.source.directory}/${docker.dockerfile}</dockerFile>
+                <assembly>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+                <tags>
+                  <tag>${project.version}</tag>
+                </tags>
+              </build>
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default</id>
+            <phase>install</phase>
+            <goals>
+              <goal>build</goal>
+              <goal>push</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

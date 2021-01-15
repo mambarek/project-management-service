@@ -52,3 +52,13 @@ So you can in jenkins run only unit tests "mvn test" run integration test too wi
 
 ## Cors Problem
 Cors problems are now fixed with th WebConfig class
+
+## Docker build with fabric8
+Docker image would be created and pushed by maven at install phase see pom.xml
+> mvn install
+
+or use docker:build, docker:push
+> mvn docker:build docker:push
+
+or use Jenkins. In jenkinsfile (Pipeline) we call the two goals
+
