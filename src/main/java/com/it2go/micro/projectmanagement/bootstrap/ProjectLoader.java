@@ -10,21 +10,25 @@ import com.it2go.micro.projectmanagement.domain.ProjectStepStatus;
 import com.it2go.micro.projectmanagement.events.ProjectExportEvent;
 import com.it2go.micro.projectmanagement.services.EmployeeService;
 import com.it2go.micro.projectmanagement.services.ProjectService;
+import com.it2go.micro.projectmanagement.services.jms.JmsService;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class ProjectLoader implements CommandLineRunner {
 
   private final ProjectService projectService;
-  private final JmsTemplate jmsTemplate;
+  private final JmsService jmsService;
   private final ObjectMapper objectMapper;
   private final EmployeeService employeeService;
 
@@ -184,9 +188,16 @@ public class ProjectLoader implements CommandLineRunner {
     return project;
   }
 
-  public void importEmployees(){
-    jmsTemplate.convertAndSend("EMPLOYEE_IMPORT_QUEUE", "");
-    String employeeExportEventJson = (String) jmsTemplate.receiveAndConvert("EMPLOYEE_EXPORT_QUEUE");
+  public void importEmployees() throws Exception{
+    jmsService.sendMessage("EMPLOYEE_IMPORT_QUEUE", "");
+    log.info("Waiting for all ActiveMQ JMS Messages to be consumed");
+    TimeUnit.SECONDS.sleep(3);
+    System.exit(-1);
+    Object message = jmsService.receiveMessage("EMPLOYEE_EXPORT_QUEUE");
+
+    //if(message == null) return;
+
+    String employeeExportEventJson = (String) message;
     System.out.println("-- All Employees");
     System.out.println(employeeExportEventJson);
     if(employeeExportEventJson == null) return;

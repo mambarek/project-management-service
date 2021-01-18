@@ -1,7 +1,5 @@
 package com.it2go.micro.projectmanagement.services.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it2go.micro.employeesservice.domian.Employee;
 import com.it2go.micro.projectmanagement.config.JmsConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
@@ -14,13 +12,13 @@ import com.it2go.micro.projectmanagement.persistence.jpa.repositories.EmployeeRe
 import com.it2go.micro.projectmanagement.persistence.jpa.repositories.ProjectRepository;
 import com.it2go.micro.projectmanagement.services.EntityNotFoundException;
 import com.it2go.micro.projectmanagement.services.ProjectService;
+import com.it2go.micro.projectmanagement.services.jms.JmsService;
+import com.it2go.micro.projectmanagement.services.jms.SendMessageException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -32,7 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
   private final ProjectRepository projectRepository;
   private final EmployeeRepository employeeRepository;
   private final EmployeeMapper employeeMapper;
-  private final JmsTemplate jmsTemplate;
+  private final JmsService jmsService;
 
   @Override
   public List<Project> findAllProjects() {
@@ -68,7 +66,11 @@ public class ProjectServiceImpl implements ProjectService {
     log.info(String.format("-- saveNewProject: [%s] saved successfully", project.getPublicId()));
     log.info(String.format("-- saveNewProject: [%s] send creation event", project.getPublicId()));
 
-    jmsTemplate.convertAndSend(JmsConfig.NEW_PROJECTS_QUEUE, savedProject);
+    try {
+      jmsService.sendMessage(JmsConfig.NEW_PROJECTS_QUEUE, savedProject);
+    } catch (SendMessageException e) {
+      log.error("Error while sending message for saved project");
+    }
 
 /*    try {
       String valueAsString = objectMapper.writeValueAsString(savedProject);
@@ -101,7 +103,11 @@ public class ProjectServiceImpl implements ProjectService {
     log.info(String.format("-- updateProject: [%s] updated successfully", project.getPublicId()));
     log.info(String.format("-- updateProject: [%s] send update event", project.getPublicId()));
     // send event of update
-    jmsTemplate.convertAndSend(JmsConfig.PROJECTS_CHANGED_QUEUE, updatedProject);
+    try {
+      jmsService.sendMessage(JmsConfig.PROJECTS_CHANGED_QUEUE, updatedProject);
+    } catch (SendMessageException e) {
+      log.error("Error while sending message for update project");
+    }
 
     return updatedProject;
   }
