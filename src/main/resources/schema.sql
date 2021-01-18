@@ -1,3 +1,9 @@
+create table if not exists test_table
+(
+    id          bigint       not null primary key,
+    budget      double precision
+);
+
 create table if not exists project
 (
     id          bigint       not null primary key,

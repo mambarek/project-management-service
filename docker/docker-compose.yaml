@@ -1,11 +1,12 @@
 version: "3"
 services:
-  postgres_db:
+  projects-postgres:
     image: postgres
+    container_name: 'projects-postgres'
     volumes:
       - postgresqldata:/var/lib/postgresql/data
-    expose:
-      - 5432
+    ports:
+      - '5432:5432'
     environment:
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_ENCODING=UTF8'
@@ -13,7 +14,7 @@ services:
   project-management:
     image: mmbarek/project-management-service
     depends_on:
-      - postgres_db
+      - projects-postgres
     ports:
       - '8020:8020'
     environment:
