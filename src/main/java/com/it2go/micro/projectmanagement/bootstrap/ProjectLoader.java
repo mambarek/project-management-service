@@ -38,7 +38,12 @@ public class ProjectLoader implements CommandLineRunner {
     System.out.println(saveNewProject);
     projectService.saveNewProject(createProject2());
     projectService.saveNewProject(createProject3());
-    importEmployees();
+    try {
+      importEmployees();
+    } catch (Exception e){
+      System.out.println(e.getMessage());
+    }
+
   }
 
   public static Project createProject() {
