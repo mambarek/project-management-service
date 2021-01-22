@@ -19,6 +19,7 @@ public class JmsService {
   private final JmsTemplate jmsTemplate;
 
   public void sendMessage(String queueName, Object body) throws SendMessageException {
+    log.info("Send Message Queue: " + queueName + " Body: " + body);
     try {
       jmsTemplate.convertAndSend(queueName, body);
     }
@@ -29,6 +30,7 @@ public class JmsService {
   }
 
   public Object receiveMessage(String queueName) throws ReceiveMessageException {
+    log.info("Receive Message Queue: " + queueName);
     try {
       return jmsTemplate.receiveAndConvert(queueName);
     }catch (Exception e){

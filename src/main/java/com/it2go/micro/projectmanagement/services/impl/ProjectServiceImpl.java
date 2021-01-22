@@ -60,6 +60,13 @@ public class ProjectServiceImpl implements ProjectService {
     log.info(String.format("-- saveNewProject: [%s]", project.getPublicId()));
     ProjectEntity projectEntity = projectMapper.projectToProjectEntity(project);
 
+    List<EmployeeEntity> employeeEntities = new ArrayList<>();
+    for (Employee employee: project.getAssignedEmployees()){
+      EmployeeEntity employeeEntity = employeeRepository.findByPublicId(employee.getPublicId())
+          .orElseThrow(EntityNotFoundException::new);
+      employeeEntities.add(employeeEntity);
+    }
+    projectEntity.setAssignedEmployees(employeeEntities);
     ProjectEntity savedProjectEntity = projectRepository.save(projectEntity);
     Project savedProject = projectMapper.projectEntityToProject(savedProjectEntity);
 

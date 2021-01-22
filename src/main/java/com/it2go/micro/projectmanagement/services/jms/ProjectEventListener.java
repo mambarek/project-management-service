@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class ProjectEventListener {
 
-  private final JmsTemplate jmsTemplate;
+  private final JmsService jmsService;
   private final ProjectService projectService;
   private final ObjectMapper objectMapper;
 
@@ -32,13 +32,13 @@ public class ProjectEventListener {
   // JmsListener is async and running on a different thread. so it has no hibernate session in this thread
   // with @Transactional you start e new Transaction with a new session
   @JmsListener(destination = "PROJECT_REQUEST_QUEUE")
-  public void listenToProjectEvent(String projectPublicId) throws JMSException {
+  public void listenToProjectEvent(String projectPublicId) throws Exception {
     log.info("-- listenToProjectEvent: " + projectPublicId);
     Project projectByPublicId = projectService
         .findProjectByPublicId(UUID.fromString(projectPublicId));
     log.info("--listenToProjectEvent project found " + projectByPublicId);
 
-    jmsTemplate.convertAndSend("PROJECT_RESPONSE_QUEUE", projectByPublicId);
+    jmsService.sendMessage("PROJECT_RESPONSE_QUEUE", projectByPublicId);
 /*    try {
       String valueAsString = objectMapper.writeValueAsString(projectByPublicId);
       jmsTemplate.convertAndSend(message.getJMSReplyTo(), valueAsString);
@@ -65,8 +65,8 @@ public class ProjectEventListener {
 
     try {
       String valueAsString = objectMapper.writeValueAsString(projectExportEvent);
-      jmsTemplate.convertAndSend("PROJECT_EXPORT_QUEUE", valueAsString);
-    } catch (JsonProcessingException e) {
+      jmsService.sendMessage("PROJECT_EXPORT_QUEUE", valueAsString);
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

@@ -56,6 +56,7 @@ public class ProjectLoader implements CommandLineRunner {
         .planedFinishDate(LocalDate.of(2021, Month.OCTOBER, 31))
         .status(ProjectStatus.WAITING)
         .projectSteps(new ArrayList<>())
+        .assignedEmployees(new ArrayList<>())
         .build();
 
     ProjectStep step1 = ProjectStep.builder()
@@ -105,6 +106,7 @@ public class ProjectLoader implements CommandLineRunner {
         .planedFinishDate(LocalDate.of(2026, 1, 31))
         .status(ProjectStatus.WAITING)
         .projectSteps(new ArrayList<>())
+        .assignedEmployees(new ArrayList<>())
         .build();
 
     ProjectStep step1 = ProjectStep.builder()
@@ -154,6 +156,7 @@ public class ProjectLoader implements CommandLineRunner {
         .planedFinishDate(LocalDate.of(2026, 1, 31))
         .status(ProjectStatus.WAITING)
         .projectSteps(new ArrayList<>())
+        .assignedEmployees(new ArrayList<>())
         .build();
 
     ProjectStep step1 = ProjectStep.builder()
@@ -195,12 +198,7 @@ public class ProjectLoader implements CommandLineRunner {
 
   public void importEmployees() throws Exception{
     jmsService.sendMessage("EMPLOYEE_IMPORT_QUEUE", "");
-    log.info("Waiting for all ActiveMQ JMS Messages to be consumed");
-    TimeUnit.SECONDS.sleep(3);
-    System.exit(-1);
     Object message = jmsService.receiveMessage("EMPLOYEE_EXPORT_QUEUE");
-
-    //if(message == null) return;
 
     String employeeExportEventJson = (String) message;
     System.out.println("-- All Employees");

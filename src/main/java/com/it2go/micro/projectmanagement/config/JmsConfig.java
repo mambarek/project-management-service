@@ -1,9 +1,7 @@
 package com.it2go.micro.projectmanagement.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.it2go.micro.projectmanagement.domain.Project;
-import java.util.ArrayList;
-import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
@@ -11,11 +9,12 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
+@Slf4j
 @Configuration
 @EnableJms
 public class JmsConfig {
 
-  public static final String PROJECT_EVENTS_QUEUE = "project-events";
+  public static final String PROJECT_EVENTS_QUEUE = "project_events";
   public static final String NEW_PROJECTS_QUEUE = "NEW_PROJECTS_QUEUE";
   public static final String PROJECTS_CHANGED_QUEUE = "PROJECTS_CHANGED_QUEUE";
 
@@ -38,6 +37,5 @@ public class JmsConfig {
 
     return converter;
   }
-
 
 }
