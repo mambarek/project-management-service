@@ -3,23 +3,25 @@ package com.it2go.micro.projectmanagement.bootstrap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it2go.micro.employeesservice.domian.EmployeeExportEvent;
+import com.it2go.micro.projectmanagement.config.MessagingConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
 import com.it2go.micro.projectmanagement.domain.ProjectStep;
 import com.it2go.micro.projectmanagement.domain.ProjectStepStatus;
-import com.it2go.micro.projectmanagement.events.ProjectExportEvent;
 import com.it2go.micro.projectmanagement.services.EmployeeService;
 import com.it2go.micro.projectmanagement.services.ProjectService;
-import com.it2go.micro.projectmanagement.services.jms.JmsService;
+import com.it2go.micro.projectmanagement.services.messagin.MessageService;
+import com.it2go.micro.projectmanagement.services.messagin.SendMessageException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+//import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.jms.core.JmsTemplate;
+//import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -28,9 +30,11 @@ import org.springframework.stereotype.Component;
 public class ProjectLoader implements CommandLineRunner {
 
   private final ProjectService projectService;
-  private final JmsService jmsService;
+  private final MessageService messageService;
   private final ObjectMapper objectMapper;
   private final EmployeeService employeeService;
+  // to be removed
+  //private final RabbitTemplate rabbitTemplate;
 
   @Override
   public void run(String... args) throws Exception {
@@ -39,7 +43,7 @@ public class ProjectLoader implements CommandLineRunner {
     projectService.saveNewProject(createProject2());
     projectService.saveNewProject(createProject3());
     try {
-      importEmployees();
+      startEmployeesImport();
     } catch (Exception e){
       System.out.println(e.getMessage());
     }
@@ -196,23 +200,8 @@ public class ProjectLoader implements CommandLineRunner {
     return project;
   }
 
-  public void importEmployees() throws Exception{
-    jmsService.sendMessage("EMPLOYEE_IMPORT_QUEUE", "");
-    Object message = jmsService.receiveMessage("EMPLOYEE_EXPORT_QUEUE");
-
-    String employeeExportEventJson = (String) message;
-    System.out.println("-- All Employees");
-    System.out.println(employeeExportEventJson);
-    if(employeeExportEventJson == null) return;
-
-    System.out.println("-- Employee import save all employees!");
-    try {
-      EmployeeExportEvent employeeExportEvent = objectMapper
-          .readValue(employeeExportEventJson, EmployeeExportEvent.class);
-      employeeExportEvent.getEmployees().forEach(employeeService::saveNewEmployee);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-    }
-
+  void startEmployeesImport() throws SendMessageException {
+    messageService.sendMessage(MessagingConfig.EMPLOYEES_IMPORT_QUEUE, "Start Employees import!");
   }
+
 }

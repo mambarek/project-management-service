@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
@@ -14,11 +15,8 @@ import org.springframework.jms.support.converter.MessageType;
 @EnableJms
 public class JmsConfig {
 
-  public static final String PROJECT_EVENTS_QUEUE = "project_events";
-  public static final String NEW_PROJECTS_QUEUE = "NEW_PROJECTS_QUEUE";
-  public static final String PROJECTS_CHANGED_QUEUE = "PROJECTS_CHANGED_QUEUE";
-
   @Bean // Serialize message content to json using TextMessage
+  @Profile("jms")
   public MessageConverter jacksonJmsMessageConverter(ObjectMapper objectMapper) {
     System.out.println("-- jacksonJmsMessageConverter called");
     MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

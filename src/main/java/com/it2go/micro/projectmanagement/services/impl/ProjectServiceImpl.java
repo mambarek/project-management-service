@@ -2,6 +2,7 @@ package com.it2go.micro.projectmanagement.services.impl;
 
 import com.it2go.micro.employeesservice.domian.Employee;
 import com.it2go.micro.projectmanagement.config.JmsConfig;
+import com.it2go.micro.projectmanagement.config.MessagingConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
 import com.it2go.micro.projectmanagement.mapper.EmployeeMapper;
@@ -12,8 +13,8 @@ import com.it2go.micro.projectmanagement.persistence.jpa.repositories.EmployeeRe
 import com.it2go.micro.projectmanagement.persistence.jpa.repositories.ProjectRepository;
 import com.it2go.micro.projectmanagement.services.EntityNotFoundException;
 import com.it2go.micro.projectmanagement.services.ProjectService;
-import com.it2go.micro.projectmanagement.services.jms.JmsService;
-import com.it2go.micro.projectmanagement.services.jms.SendMessageException;
+import com.it2go.micro.projectmanagement.services.messagin.MessageService;
+import com.it2go.micro.projectmanagement.services.messagin.SendMessageException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class ProjectServiceImpl implements ProjectService {
   private final ProjectRepository projectRepository;
   private final EmployeeRepository employeeRepository;
   private final EmployeeMapper employeeMapper;
-  private final JmsService jmsService;
+  private final MessageService messageService;
 
   @Override
   public List<Project> findAllProjects() {
@@ -74,7 +75,7 @@ public class ProjectServiceImpl implements ProjectService {
     log.info(String.format("-- saveNewProject: [%s] send creation event", project.getPublicId()));
 
     try {
-      jmsService.sendMessage(JmsConfig.NEW_PROJECTS_QUEUE, savedProject);
+      messageService.sendMessage(MessagingConfig.NEW_PROJECTS_QUEUE, savedProject);
     } catch (SendMessageException e) {
       log.error("Error while sending message for saved project");
     }
@@ -111,9 +112,9 @@ public class ProjectServiceImpl implements ProjectService {
     log.info(String.format("-- updateProject: [%s] send update event", project.getPublicId()));
     // send event of update
     try {
-      jmsService.sendMessage(JmsConfig.PROJECTS_CHANGED_QUEUE, updatedProject);
+      messageService.sendMessage(MessagingConfig.UPDATED_PROJECTS_QUEUE, updatedProject);
     } catch (SendMessageException e) {
-      log.error("Error while sending message for update project");
+      log.error("Error while sending message for update project", e);
     }
 
     return updatedProject;

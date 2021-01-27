@@ -1,44 +1,30 @@
-package com.it2go.micro.projectmanagement.services.jms;
+package com.it2go.micro.projectmanagement.services.amqp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.it2go.micro.employeesservice.domian.Employee;
 import com.it2go.micro.employeesservice.domian.EmployeeExportEvent;
 import com.it2go.micro.projectmanagement.config.MessagingConfig;
-import com.it2go.micro.projectmanagement.mapper.EmployeeMapper;
 import com.it2go.micro.projectmanagement.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * created by mmbarek on 01.01.2021.
+ * created by mmbarek on 25.01.2021.
  */
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@Profile("jms")
-public class EmployeeEventListener {
+@Profile("rabbit")
+public class AmpqEmployeesImporter {
 
   private final ObjectMapper objectMapper;
   private final EmployeeService employeeService;
 
-  @JmsListener(destination = MessagingConfig.NEW_EMPLOYEES_QUEUE)
-  public void listenToNewEmployee(Employee employee){
-    log.info(String.format("-- listenToNewEmployee() %s", employee));
-    employeeService.saveNewEmployee(employee);
-  }
-
-  @JmsListener(destination = MessagingConfig.UPDATED_EMPLOYEES_QUEUE)
-  public void listenToUpdateEmployee(Employee employee){
-    log.info(String.format("-- listenToUpdateEmployee() %s", employee));
-    employeeService.updateEmployee(employee);
-  }
-
-  @JmsListener(destination = MessagingConfig.EMPLOYEES_EXPORT_QUEUE)
+  @RabbitListener(queues = MessagingConfig.EMPLOYEES_EXPORT_QUEUE)
   public void importEmployees(String employeeExportEventJson){
     System.out.println("-- importEmployees Called imported was:  " + employeeExportEventJson);
     if(employeeExportEventJson == null) return;
