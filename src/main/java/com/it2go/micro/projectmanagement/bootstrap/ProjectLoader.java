@@ -1,8 +1,6 @@
 package com.it2go.micro.projectmanagement.bootstrap;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.it2go.micro.employeesservice.domian.EmployeeExportEvent;
 import com.it2go.micro.projectmanagement.config.MessagingConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
@@ -12,7 +10,6 @@ import com.it2go.micro.projectmanagement.services.EmployeeService;
 import com.it2go.micro.projectmanagement.services.ProjectService;
 import com.it2go.micro.projectmanagement.services.messagin.MessageService;
 import com.it2go.micro.projectmanagement.services.messagin.SendMessageException;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class ProjectLoader implements CommandLineRunner {
   //private final RabbitTemplate rabbitTemplate;
 
   @Override
-  public void run(String... args) throws Exception {
+  public void run(String... args) {
     Project saveNewProject = projectService.saveNewProject(createProject());
     System.out.println(saveNewProject);
     projectService.saveNewProject(createProject2());
