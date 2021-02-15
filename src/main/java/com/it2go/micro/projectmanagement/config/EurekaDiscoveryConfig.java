@@ -3,7 +3,6 @@ package com.it2go.micro.projectmanagement.config;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 /**
  * created by mmbarek on 19.01.2021.

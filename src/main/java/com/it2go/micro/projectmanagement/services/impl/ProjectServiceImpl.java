@@ -1,7 +1,6 @@
 package com.it2go.micro.projectmanagement.services.impl;
 
 import com.it2go.micro.employeesservice.domian.Employee;
-import com.it2go.micro.projectmanagement.config.JmsConfig;
 import com.it2go.micro.projectmanagement.config.MessagingConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;

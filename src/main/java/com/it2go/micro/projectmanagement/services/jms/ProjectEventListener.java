@@ -1,22 +1,15 @@
 package com.it2go.micro.projectmanagement.services.jms;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.events.ProjectExportEvent;
 import com.it2go.micro.projectmanagement.services.ProjectService;
 import java.util.List;
 import java.util.UUID;
-import javax.jms.JMSException;
-import javax.jms.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.handler.annotation.Headers;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: projects-service-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: projects-service
+    template:
+        metadata:
+            labels:
+                component: projects-service
+        spec:
+            containers:
+                - name: projects-service
+                  image: mmbarek/project-management-service
+                  ports:
+                    - containerPort: 8020
+                  env:
+                    # springboot context root
+                    #- name: SERVER_SERVLET_CONTEXT_PATH
+                    #  value: '/services/pms'  
+                    - name: SPRING_DATASOURCE_URL
+                      value: jdbc:postgresql://projects-postgres-cluster-ip-service:5432/postgres
+                    - name: SPRING_DATASOURCE_USER
+                      value: postgres
+                    - name: SPRING_DATASOURCE_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                          name: pgpassword
+                          key: PGPASSWORD       
