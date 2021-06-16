@@ -1,6 +1,6 @@
 package com.it2go.micro.projectmanagement.services;
 
-import com.it2go.micro.employeesservice.domian.Employee;
+import com.it2go.micro.employeesservice.domain.Employee;
 import java.util.List;
 import java.util.UUID;
 

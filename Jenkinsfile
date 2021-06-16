@@ -44,11 +44,23 @@ node {
             }
          }
 
-        stage('Test') {
-            echo "Test  project-management-service..."
+        stage('Unit Tests') {
+            echo "Unit Tests  project-management-service..."
             withMaven(jdk: javaVersion, maven: mavenVersion) {
                 try{
-                    runCommand('mvn test')
+                    runCommand('mvn surefire:test')
+                } catch(exception){
+                    sendErrorMail("Error occurred while testing, error: " + exception.message)
+                    warnError(exception.message)
+                }
+            }
+        }
+
+        stage('Integration Tests') {
+            echo "Integration Tests project-management-service..."
+            withMaven(jdk: javaVersion, maven: mavenVersion) {
+                try{
+                    runCommand('mvn surefire:test')
                 } catch(exception){
                     sendErrorMail("Error occurred while testing, error: " + exception.message)
                     warnError(exception.message)

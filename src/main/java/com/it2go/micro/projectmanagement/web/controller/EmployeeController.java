@@ -1,6 +1,6 @@
 package com.it2go.micro.projectmanagement.web.controller;
 
-import com.it2go.micro.employeesservice.domian.Employee;
+import com.it2go.micro.employeesservice.domain.Employee;
 import com.it2go.micro.projectmanagement.services.EmployeeService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

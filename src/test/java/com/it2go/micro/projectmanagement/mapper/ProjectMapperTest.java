@@ -13,11 +13,14 @@ import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 class ProjectMapperTest {
 
-    @Autowired
     ProjectMapper projectMapper;
+
+    @BeforeEach
+    void beforeEach(){
+        projectMapper = new ProjectMapperImpl();
+    }
 
     @Test
     void testProjectEntityToProject() {

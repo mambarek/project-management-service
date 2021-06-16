@@ -1,6 +1,6 @@
 package com.it2go.micro.projectmanagement.domain;
 
-import com.it2go.micro.employeesservice.domian.Employee;
+import com.it2go.micro.employeesservice.domain.Employee;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;

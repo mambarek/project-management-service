@@ -1,8 +1,8 @@
 package com.it2go.micro.projectmanagement.mapper;
 
-import com.it2go.micro.employeesservice.domian.Employee;
-import com.it2go.micro.employeesservice.domian.Gender;
-import com.it2go.micro.employeesservice.domian.PersonData;
+import com.it2go.micro.employeesservice.domain.Employee;
+import com.it2go.micro.employeesservice.domain.Gender;
+import com.it2go.micro.employeesservice.domain.PersonData;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStep;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.EmployeeEntity;

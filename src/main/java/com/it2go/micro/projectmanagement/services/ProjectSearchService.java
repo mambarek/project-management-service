@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ProjectSearchService {
 
-  public List<ProjectTableItem> filterProjects(SearchTemplate searchTemplate);
+  List<ProjectTableItem> filterProjects(SearchTemplate searchTemplate);
 }

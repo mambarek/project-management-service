@@ -1,6 +1,6 @@
 package com.it2go.micro.projectmanagement.services.impl;
 
-import com.it2go.micro.employeesservice.domian.Employee;
+import com.it2go.micro.employeesservice.domain.Employee;
 import com.it2go.micro.projectmanagement.mapper.EmployeeMapper;
 import com.it2go.micro.projectmanagement.persistence.jpa.entities.EmployeeEntity;
 import com.it2go.micro.projectmanagement.persistence.jpa.repositories.EmployeeRepository;

@@ -2,7 +2,7 @@ package com.it2go.micro.projectmanagement.services.amqp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.it2go.micro.employeesservice.domian.EmployeeExportEvent;
+import com.it2go.micro.employeesservice.domain.EmployeeExportEvent;
 import com.it2go.micro.projectmanagement.config.MessagingConfig;
 import com.it2go.micro.projectmanagement.services.EmployeeService;
 import lombok.RequiredArgsConstructor;

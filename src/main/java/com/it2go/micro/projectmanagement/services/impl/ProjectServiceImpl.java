@@ -1,6 +1,6 @@
 package com.it2go.micro.projectmanagement.services.impl;
 
-import com.it2go.micro.employeesservice.domian.Employee;
+import com.it2go.micro.employeesservice.domain.Employee;
 import com.it2go.micro.projectmanagement.config.MessagingConfig;
 import com.it2go.micro.projectmanagement.domain.Project;
 import com.it2go.micro.projectmanagement.domain.ProjectStatus;
@@ -29,7 +29,6 @@ public class ProjectServiceImpl implements ProjectService {
   private final ProjectMapper projectMapper;
   private final ProjectRepository projectRepository;
   private final EmployeeRepository employeeRepository;
-  private final EmployeeMapper employeeMapper;
   private final MessageService messageService;
 
   @Override
