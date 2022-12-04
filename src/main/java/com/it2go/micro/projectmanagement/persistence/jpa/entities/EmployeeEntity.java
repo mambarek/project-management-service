@@ -22,10 +22,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
@@ -64,5 +62,6 @@ public class EmployeeEntity implements Serializable {
     private String email;
 
     @ManyToMany(mappedBy = "assignedEmployees")
+    @ToString.Exclude
     private List<ProjectEntity> assignedProjects = new ArrayList<>();
 }
