@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.it2go.micro</groupId>
     <artifactId>microservices-bom</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>4.0.4-SNAPSHOT</version>
   </parent>
   <artifactId>project-management-service</artifactId>
   <version>1.0.2-SNAPSHOT</version>
@@ -47,11 +47,16 @@
       <artifactId>springdoc-openapi-ui</artifactId>
       <version>1.4.4</version>
     </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-jpamodelgen</artifactId>
+        <scope>provided</scope>
+      </dependency>
 
-<!--    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-openfeign</artifactId>
-    </dependency>-->
+    <!--    <dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>-->
   </dependencies>
 
   <build>
@@ -89,7 +94,7 @@
             <annotationProcessorPath>
               <groupId>org.hibernate</groupId>
               <artifactId>hibernate-jpamodelgen</artifactId>
-              <version>${hibernate.version}</version>
+              <version>5.4.32.Final</version>
             </annotationProcessorPath>
           </annotationProcessorPaths>
         </configuration>
